@@ -1,0 +1,91 @@
+Name:       imgsz  -  output imagesize-info as HTML format to stdout
+Version:    0.2
+Time-stamp: <Sep 18 2001>
+Author:     itouh@lycos.ne.jp
+
+
+説明:
+        HTMLを書くときの補助ツール。
+        画像のサイズを調べて、HTMLのフォーマットで出力する。
+        jpg, gif, png, xbm に対応。
+        読みは「イメージサイズ」。
+
+
+コンパイル:
+        Linux2.2.18 と
+        gcc version egcs-2.91.66 19990314/Linux (egcs-1.1.2 release)
+        でコンパイル・動作確認した。
+
+        コンパイル方法は、
+        $ make
+        あるいは
+        $ cc -o imgsz imgsz.c
+        として、できた実行ファイル 'imgsz' を、PATHのとおったところに
+        コピーすればよい。
+
+
+使用法:
+        例 1)
+        $  imgsz cutedog.jpg
+        とすると、たとえば次のようにコンソールに出力する。
+
+                <img src="cutedog.jpg" width="123" height="456" alt=" ">
+
+        例 2)
+        $  imgsz *
+        とすると、カレントディレクトリに存在するファイルから
+        画像ファイルのみ選び、たとえばこのようにコンソールに出力する。
+
+                <img src="img.xbm" width="16" height="18" alt=" ">
+                <img src="mule.png" width="724" height="581" alt=" ">
+                <img src="nyanko.jpg" width="527" height="403" alt=" ">
+                <img src="thunder.gif" width="410" height="364" alt=" ">
+                <img src="wanikani.jpg" width="250" height="129" alt=" ">
+
+
+        例 3)
+        $  imgsz images/*.jpg >>gallery.html
+        とすると、たとえばこんな文字列を、カレントディレクトリに存在する
+        gallery.htmlの末尾に追加する。
+
+                <img src="images/tree.jpg" width="724" height="581" alt=" ">
+                <img src="images/sea.jpg" width="300" height="250" alt=" ">
+                <img src="images/cat.jpg" width="527" height="403" alt=" ">
+
+
+制限:
+        拡張子(suffix)については、
+                '.jpeg' は非標準だと作者が思うので未対応。
+                大文字の拡張子('.JPG', '.PNG' など) には未対応。
+
+        JPEGフォーマットは JPEG/JFIF のみに対応。
+
+        このソフトウェアの対応するCPUは、Intel系(Little endian, LSBfirst)
+        だけ。Motorola系(Big endian, MSBfirst)の場合、バイト順について
+        ソースを書き換える必要あり。
+
+
+License:
+        Copyright (c) 2001 ITOU Hiroki All rights reserved.
+        このソフトはフリーソフトです。
+
+        The Graphics Interchange Format(c) is the Copyright property of
+        CompuServe Incorporated. GIF(sm) is a Service Mark property of
+        CompuServe Incorporated.
+
+        このソフトはGIFフォーマットを扱っていますが、画像データの
+        エンコード・デコードはおこなわないので、UNISYS社と契約を
+        結ぶ必要はないはずです。問題があれば mailで連絡してください。
+
+
+更新履歴:
+        version 0.2 (2001/9/18)
+        ファイルの正当性チェックをするようにした。JPGの解析を改良。
+
+        version 0.1 (2001/9/17)
+        ファーストリリース。
+
+
+--
+itouh
+http://www.geocities.co.jp/Playtown-Domino/7021/
