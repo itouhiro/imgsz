@@ -1,42 +1,26 @@
-Name:       imgsz  -  print width & height sizes of images as HTML format
-Version:    0.4
-Time-stamp: <Dec 13 2003>
-Copyright (c) 2003 Itou Hiroki
+Name:       imgsz  -  print width & height sizes of images as XHTML format
+Version:    0.5
+Time-stamp: <Jan 20 2009>
+Copyright (c) 2003,2009 Itou Hiroki
 
 
 Description:
-        Output image size in HTML format; for help of writing HTML.
+        Output image size in XHTML format; for help of writing XHTML.
         Support for 'jpg, gif, png, xbm'.
         Pronounce 'Image Size'.
 
 
 Usage:
-        $  imgsz cutedog.jpg
+       $  imgsz images/*.jpg >>gallery.html
 
         Output ->
-                <img src="cutedog.jpg" width="123" height="456" alt=" ">
-
-
-        $  imgsz *
-
-        Output ->
-                <img src="img.xbm" width="16" height="18" alt=" ">
-                <img src="mule.png" width="724" height="581" alt=" ">
-                <img src="nyanko.jpg" width="527" height="403" alt=" ">
-                <img src="thunder.gif" width="410" height="364" alt=" ">
-                <img src="wanikani.jpg" width="250" height="129" alt=" ">
-
-
-        $  imgsz images/*.jpg >>gallery.html
-
-        Output ->
-                <img src="images/tree.jpg" width="724" height="581" alt=" ">
-                <img src="images/sea.jpg" width="300" height="250" alt=" ">
-                <img src="images/cat.jpg" width="527" height="403" alt=" ">
+                <img src="images/tree.jpg" width="724" height="581" alt="" />
+                <img src="images/sea.jpg" width="300" height="250" alt="" />
+                <img src="images/cat.jpg" width="527" height="403" alt="" />
 
 
 License:
-        Copyright (c) 2003 ITOU Hiroki All rights reserved.
+        Copyright (c) 2003,2009 ITOU Hiroki All rights reserved.
         This is a free soft.
 
         The Graphics Interchange Format(c) is the Copyright property of
@@ -45,15 +29,14 @@ License:
 
 
 History:
+        version 0.5 (2009/01/20)
+        Output XHTML format.  Add option '--basename'.
+
         version 0.4 (2003/12/13)
-        add option '--double', '--exif'.
+        Add option '--double', '--exif'.
 
         version 0.2 (2001/9/18)
         Check file validity.  Improve JPG analysis.
 
         version 0.1 (2001/9/17)
         Initial Release.
-
-
---
-itouh

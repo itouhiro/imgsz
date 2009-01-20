@@ -2,13 +2,13 @@
  * imgsz  -  print width & height sizes of images as HTML format
  *
  * Filename:   imgsz.c
- * Version:    0.4
+ * Version:    0.5
  * Author:     itouh
- * Time-stamp: <Dec 13 2003>
- * Copyright (c) 2003 Itou Hiroki
+ * Time-stamp: <Jan 20 2009>
+ * Copyright (c) 2003,2009 Itou Hiroki
  */
 #define PROGNAME "imgsz"
-#define PROGVERSION "0.4"
+#define PROGVERSION "0.5"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -57,19 +57,21 @@ int main(int argc, char *argv[]){
     int i;
     int ratio = 1;
     int exif = 0;
+    int basename = 0;
 
     /*
      * print help & exit
      */
     if(argc<=1){
-        printf("%s version %s - print width & height sizes of images as HTML format\n"
+        printf("%s version %s - print width & height sizes of images as XHTML format\n"
                "usage:     %s <option> file..\n"
                "option:    -2  --double      double size for width, height\n"
                "           -e  --exif        put Exif info if exist\n"
+               "           -b  --basename    remove prefix path and show just an image file name\n"
                "supported: ", PROGNAME, PROGVERSION, PROGNAME);
-        fflush(stdout);
         for(i=0; i<sizeof(g_suffix)/sizeof(g_suffix[0]); i++)
-            fprintf(stderr, "%s ", g_suffix[i]);
+            fprintf(stdout, "%s ", g_suffix[i]);
+        fflush(stdout);
         printf("\n"
                "  (not support upper-case 'JPG', 'PNG'..)\n");
         exit(1);
@@ -81,6 +83,7 @@ int main(int argc, char *argv[]){
     for(i=1; i<argc; i++){
         size_type size;
         int ftype;
+        char *img_fname, *p, *j;
 
         if((strcmp(argv[i],"-2")==0) ||
            (strcmp(argv[i],"--double")==0)){
@@ -90,9 +93,12 @@ int main(int argc, char *argv[]){
                  (strcmp(argv[i],"--exif")==0)){
             exif = 1;
             continue;
+        }else if((strcmp(argv[i],"-b")==0) ||
+                 (strcmp(argv[i],"--basename")==0)){
+            basename = 1;
+            continue;
         }
-            
-            
+
         /*
          * filename check
          */
@@ -118,17 +124,34 @@ int main(int argc, char *argv[]){
         /*
          * output result
          */
+        img_fname = (char *)malloc(MAXLINECHAR);
+        memset(img_fname, 0x00, MAXLINECHAR);
+        p=argv[i];
+        //for (j=p+strlen(argv[i])+1; j>=p; j--){
+        //    if(*j=='\n' || *j=='\r') *j='\0';
+        //}
+        if (basename){
+            //printf("debug %p %d\n", p, strlen(argv[i]));
+            for (j=argv[i]; j<argv[i]+strlen(argv[i]) - 1; j++){
+                if (*j =='\\' || *j =='/'){
+                    p = j+1;
+                    //printf("debug %s (%d)\n", p, j-argv[0]);
+                }
+            }
+        }
+        strncpy(img_fname, p, MAXLINECHAR - 1);
+
         if(size.width <= -1){
             fprintf(stdout, "<!-- error: '%s' is not an image file? -->\n", argv[i]);
         }else{
             if(exif && *g_exifdate!='\0'){
-                //fprintf(stdout, "<img src=\"%s\" width=\"%ld\" height=\"%ld\" alt=\"%s %s %s\" title=\"%s %s %s\">\n", argv[i], size.width * ratio, size.height * ratio, g_exifmaker, g_exifmodel, g_exifdate, g_exifmaker, g_exifmodel, g_exifdate);
-                fprintf(stdout, "<img src=\"%s\" width=\"%ld\" height=\"%ld\" alt=\"%s %s\" title=\"%s %s\">\n", argv[i], size.width * ratio, size.height * ratio, g_exifmodel, g_exifdate, g_exifmodel, g_exifdate);
+                //fprintf(stdout, "<img src=\"%s\" width=\"%ld\" height=\"%ld\" alt=\"%s %s %s\" title=\"%s %s %s\" />\n", argv[i], size.width * ratio, size.height * ratio, g_exifmaker, g_exifmodel, g_exifdate, g_exifmaker, g_exifmodel, g_exifdate);
+                fprintf(stdout, "<img src=\"%s\" width=\"%ld\" height=\"%ld\" alt=\"%s %s\" title=\"%s %s\" />\n", img_fname, size.width * ratio, size.height * ratio, g_exifmodel, g_exifdate, g_exifmodel, g_exifdate);
                 memset(g_exifdate, 0x00, MAXLINECHAR);
                 memset(g_exifmaker, 0x00, MAXLINECHAR);
                 memset(g_exifmodel, 0x00, MAXLINECHAR);
             }else{
-                fprintf(stdout, "<img src=\"%s\" width=\"%ld\" height=\"%ld\" alt=\"\">\n", argv[i], size.width * ratio, size.height * ratio);
+                fprintf(stdout, "<img src=\"%s\" width=\"%ld\" height=\"%ld\" alt=\"\" />\n", img_fname, size.width * ratio, size.height * ratio);
             }
         }
     }//for(i
