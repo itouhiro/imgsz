@@ -1,11 +1,11 @@
 Name:       imgsz  -  print width & height sizes of images as XHTML format
-Version:    0.5
-Time-stamp: <Jan 20 2009>
+Version:    0.6
+Time-stamp: <Jun 11 2009>
 Copyright (c) 2003,2009 Itou Hiroki
 
 
 Description:
-        Output image size in XHTML format; for help of writing XHTML.
+        Output image size in XHTML or text format.
         Support for 'jpg, gif, png, xbm'.
         Pronounce 'Image Size'.
 
@@ -29,6 +29,11 @@ License:
 
 
 History:
+        version 0.6 (2009/06/11)
+        Output XHTML or text format.  Add option '--altfilename', '--normal'.
+        Handle upper case extensions like 'GIF', 'JPG'.
+        'imgsz.c' encode change to 'UTF-8'.
+
         version 0.5 (2009/01/20)
         Output XHTML format.  Add option '--basename'.
 
